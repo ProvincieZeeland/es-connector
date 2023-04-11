@@ -13,7 +13,7 @@ After cloning this repo, you should have a map structure like this:
 |-- proxy
 ```
 
-- [1: Configure Elasticsearch / Kibana](https://github.com/ProvincieZeeland/es-connector/wiki/Configure-Elasticsearch---Kibana)
+- [1: Configure Elasticsearch / Kibana](https://github.com/ProvincieZeeland/es-connector/wiki/1:-Configure-Elasticsearch--&-Kibana-nodes)
 - [2: Setup Elasticsearch mappings etc.](https://github.com/ProvincieZeeland/es-connector/wiki/2:-Setup-Elasticsearch-mappings-etc.)
 - [3: Configure the API](https://github.com/ProvincieZeeland/es-connector/wiki/3:-Configure-the-API)
 - [4: Firing up the proxy](https://github.com/ProvincieZeeland/es-connector/wiki/4:-Firing-up-the-proxy)
