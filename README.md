@@ -58,14 +58,48 @@ COMPOSE_PROJECT_NAME=es-cdn
 
 You might have noticed several Docker compose files:
 
-- docker-compose-dev.yml (development with only 1 network)
-- docker-compose.yml (production with 2 networks)
+- docker-compose-dev.yml (development with 2 nodes but only 1 network)
+- docker-compose.yml (production with 2 nodes and 2 ACC / PROD networks)
 - docker-compose-setup-force.yml (force renewal of SSL certificates within the setup)
 
 If you need to run a compose file other then then default-compose.yml you should specify the -f param:
 ```
 docker compose -f docker-compose-dev.yml -f docker-compose-setup-force.yml up --build -d
+
+[+] Running 4/4
+ ✔ Container es-cdn-setup-1  Created                                                                                                                                                                                                  0.1s 
+ ✔ Container es-db           Created                                                                                                                                                                                                  0.2s 
+ ✔ Container es-db2          Created                                                                                                                                                                                                  0.1s 
+ ✔ Container es-kibana       Created                                                                                                                                                                                                  0.1s 
+Attaching to es-cdn-setup-1, es-db, es-db2, es-kibana
+es-cdn-setup-1  | Remove old ca (config/certs/ca.zip)
+es-cdn-setup-1  | Remove old ca (config/certs/certs.zip)
+es-cdn-setup-1  | Creating CA
+es-db           | Created elasticsearch keystore in /usr/share/elasticsearch/config/elasticsearch.keystore
+es-db2          | Created elasticsearch keystore in /usr/share/elasticsearch/config/elasticsearch.keystore
+es-cdn-setup-1  | Archive:  config/certs/ca.zip
+es-cdn-setup-1  |    creating: config/certs/ca/
+es-cdn-setup-1  |   inflating: config/certs/ca/ca.crt  
+es-cdn-setup-1  |   inflating: config/certs/ca/ca.key  
+es-cdn-setup-1  | Creating certs
+es-cdn-setup-1  | Archive:  config/certs/certs.zip
+es-cdn-setup-1  |    creating: config/certs/esnode1/
+es-cdn-setup-1  |   inflating: config/certs/esnode1/esnode1.crt  
+es-cdn-setup-1  |   inflating: config/certs/esnode1/esnode1.key  
+es-cdn-setup-1  |    creating: config/certs/esnode2/
+es-cdn-setup-1  |   inflating: config/certs/esnode2/esnode2.crt  
+es-cdn-setup-1  |   inflating: config/certs/esnode2/esnode2.key  
+es-cdn-setup-1  | Setting file permissions
+..
+..
+..
+es-cdn-setup-1  | Good to go!
+es-cdn-setup-1 exited with code 0
+..
+..
+es-kibana       | [2023-04-11T13:19:18.289+00:00][INFO ][status] Kibana is now available
 ```
+
 
 
 
