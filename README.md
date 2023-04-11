@@ -13,13 +13,21 @@ After cloning this repo, you should have a map structure like this:
 |-- proxy
 ```
 
-We need to do some configuration stuff first, we'll start in de elasticsearch map
-
 ### 1: Elasticsearch / Kibana
+We need to do some configuration stuff first, we'll start in de elasticsearch map:
 
 ```
-Before starting a container, configure the .env file by copying the env-example file to .env
+.
+|-- docker-compose-dev.yml
+|-- docker-compose-setup-force.yml
+|-- docker-compose.yml
+|-- env-example
+|-- setup.txt
+```
 
+Before starting a container, configure the .env file by copying the env-example file to .env and open in your favourite editor
+
+```
 # Password for the 'elastic' user (at least 6 characters)
 ELASTIC_PASSWORD=dummypassword
 
@@ -48,7 +56,7 @@ MEM_LIMIT=1073741824
 COMPOSE_PROJECT_NAME=es-cdn
 ```
 
-The 'elasticsearch' map contains a couple of Docker compose files:
+You might have noticed several Docker compose files:
 
 - docker-compose-dev.yml (development with only 1 network)
 - docker-compose.yml (production with 2 networks)
@@ -56,8 +64,9 @@ The 'elasticsearch' map contains a couple of Docker compose files:
 
 If you need to run a compose file other then then default-compose.yml you should specify the -f param:
 ```
-docker compose -f docker-compose-dev.yml -f docker-compose-setup-force.yml up --build
+docker compose -f docker-compose-dev.yml -f docker-compose-setup-force.yml up --build -d
 ```
+
 
 
 
