@@ -1,13 +1,7 @@
 # es-connector
 De Elasticsearch connector API is een op Python / Flask gebaseerde API voor het updaten van Elasticsearch indexen op basis van JSON data.
 
-## Elasticsearch / Kibana
-
-## Proxy
-
-## API
-
-
+## Architectuur
 
 
 
