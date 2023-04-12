@@ -1,8 +1,6 @@
 # es-connector
 The ES-connector is set of Docker containers used for updating our Elasticsearch nodes using API requests with optional notification to external parties.
 
-## Architecture overview
-
 ## Version history
 
 ### 0.1 Proof of Concept
@@ -28,6 +26,8 @@ The PoC is a fully functional but pretty basic solution which supports:
 - Perfomance tuning Python / Flask.
 - Best practices / tuning Docker containers.
 - Search endpoint
+
+## Architecture overview
 
 ## Getting started
 After cloning this repo, you should have a map structure like this:
