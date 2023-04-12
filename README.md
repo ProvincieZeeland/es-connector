@@ -17,7 +17,7 @@ The PoC is a fully functional but pretty basic solution which supports:
 **TODO**
 
 - Support for API versioning (should we use a decicated API gateway like Kong or Tyk ?).
-- Swagger / OpemAPI specs.
+- Swagger / OpenAPI specs.
 - Cockpit container for observability (logging, monitoring, display transactions, stats).
 - Research for log management (filebeat, metricbeat, Logstash etc).
 - Token management (JWT payloads).
