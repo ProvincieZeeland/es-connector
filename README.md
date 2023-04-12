@@ -8,12 +8,26 @@ The ES-connector is set of Docker containers used for updating our Elasticsearch
 ### 0.1 Proof of Concept
 The PoC is a fully functional but pretty basic solution which supports:
 
+- Different environments (development, accept, production) using .env / Docker compose files.
 - Authentication based on Bearer tokens using decorators.
 - Receive and validate posted JSON data and map it to an Elasticsearch structure.
 - Add, update and delete mapped metadata in Elasticsearch.
 - If referred content is a PDF file; get PDF from Sharepoint storage, extract text and add to metadata for full text searches.
-- Notify external parties about the change (webhook)
-- Serve metadata (JSON format) and content (eg PDF) format upon request 
+- Notify external parties about the change (webhook).
+- Serve metadata (JSON format) and content (eg PDF) format upon request.
+
+**TODO**
+
+- Support for API versioning.
+- Swagger / OpemAPI specs.
+- Cockpit container for observability (logging, monitoring, display transactions, stats).
+- Research for log management (filebeat, metricbeat, Logstash etc).
+- Token management (JWT payloads).
+- Elasticsearch performance tuning.
+- Elasticsearch security best practices.
+- Perfomance tuning Python / Flask.
+- Best practices / tuning Docker containers.
+- Search endpoint
 
 ## Getting started
 After cloning this repo, you should have a map structure like this:
