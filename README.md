@@ -3,6 +3,12 @@ The ES-connector is set of Docker containers used for updating our Elasticsearch
 
 ## Architecture overview
 
+## Version history
+
+### 0.1 Proof of concept
+
+
+
 ## Getting started
 After cloning this repo, you should have a map structure like this:
 
