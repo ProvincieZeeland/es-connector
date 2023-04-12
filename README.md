@@ -1,5 +1,5 @@
 # es-connector
-The ES-connector is set of Docker containers used for updating our Elasticsearch nodes using API requests with optional notification to external parties.
+The ES-connector is set of Docker containers used for updating our Elasticsearch nodes using API requests with optional notification to external parties. My first Python project after 23 years using PHP code :-) 
 
 ## Version history
 
