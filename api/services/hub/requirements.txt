@@ -1,0 +1,5 @@
+Flask==2.2.2
+flask_swagger
+gunicorn==20.1.0
+requests
+urllib3

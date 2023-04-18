@@ -1,0 +1,6 @@
+.env
+services/api/project/__pycache__
+services/api/config/es-config.json
+services/api/project/blueprints/__pycache__
+services/api/project/models/__pycache__
+services/notify_mock/.DS_Store

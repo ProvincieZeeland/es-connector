@@ -1,0 +1,23 @@
+version: '3.0'
+
+services:
+  es-api:
+    command: gunicorn --reload --workers 4 --timeout 300 --threads 4 --bind 0.0.0.0:5000 manage:app
+    environment:
+     - FLASK_DEBUG=0
+     - FLASK_ENV=production
+     - NUM_WORKERS=4
+
+  es-hub:
+    command: gunicorn --reload --workers 1 --timeout 300 --threads 4 --bind 0.0.0.0:5001 manage:app
+    environment:
+     - FLASK_DEBUG=0
+     - FLASK_ENV=production
+     - NUM_WORKERS=2
+
+  notify-mock:
+    command: gunicorn --reload --workers 1 --timeout 300 --threads 4 --bind 0.0.0.0:5002 manage:app
+    environment:
+     - FLASK_DEBUG=0
+     - FLASK_ENV=production
+     - NUM_WORKERS=1

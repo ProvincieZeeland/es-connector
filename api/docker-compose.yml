@@ -1,0 +1,88 @@
+version: '3.0'
+
+services:
+
+  # - Flask application for feeding Elasticsearch
+  #
+  es-api:
+    build: ./services/api
+    command: python3 manage.py run -h 0.0.0.0 -p 5000
+    restart: always
+    container_name: es-api${ES_ENV}
+    expose:
+      - 5000
+    volumes:
+      - es-config:/data/config
+    networks:
+      - elastic-expos${ES_ENV}
+    env_file:
+      - ./.env  
+    environment:
+      - ES_ENVIRONMENT_NAME=${ES_ENV_NAME}
+      - ES_CONFIG=/data/config/es-config.json   
+      - ES_HUB_HOST=http://es-hub:5001/notify/
+      - ES_DB=https://es-db:9200
+      - ES_DB_PW=${ES_PASSWORD}
+      - ES_SHA_FINGERPRINT=${ES_FINGERPRINT}
+      - ES_INDEXNAME=${ES_INDEXNAME}
+      - SP_ENDPOINT=${SHAREPOINT_ENDPOINT}
+      - FLASK_APP=project/__init__.py
+      - FLASK_DEBUG=1
+    healthcheck:
+      test: "/data/api/web/healtcheck.sh localhost 5000 /heartbeat" 
+      interval: 30s
+      timeout: 10s
+      retries: 20   
+
+  # ES-HUB
+  # - Flask application for notifying endpoints about a change
+  #
+  es-hub:
+    build: ./services/hub
+    command: python3 manage.py run -h 0.0.0.0 -p 5001
+    restart: always
+    container_name: es-hub${ES_ENV}
+    expose:
+      - 5001
+    volumes:
+      - es-config:/data/config      
+    networks:
+      - elastic-expos${ES_ENV}
+    environment:
+     - ES_ENVIRONMENT_NAME=${ES_ENV_NAME}
+     - ES_CONFIG=/data/config/es-config.json   
+     - FLASK_APP=project/__init__.py
+     - FLASK_DEBUG=1
+    healthcheck:
+      test: "/data/hub/web/healtcheck.sh localhost 5001 /heartbeat" 
+      interval: 30s
+      timeout: 10s
+      retries: 20 
+
+  # Notify mock container
+  #
+  notify-mock:
+    build: ./services/notify_mock
+    command: python3 manage.py run -h 0.0.0.0 -p 5002
+    restart: always
+    container_name: es-notify-mock${ES_ENV}
+    expose:
+      - 5002
+    volumes:
+      - es-config:/data/config      
+    networks:
+      - elastic-expos${ES_ENV}
+    environment:
+     - ES_ENVIRONMENT_NAME=${ES_ENV_NAME}
+     - ES_CONFIG=/data/config/es-config.json   
+     - FLASK_APP=project/__init__.py
+     - FLASK_DEBUG=1  
+
+networks:
+  elastic-expos:
+     external: true
+  elastic-expos-acc:
+     external: true    
+
+volumes:
+  es-config:

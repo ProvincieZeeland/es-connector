@@ -1,0 +1,20 @@
+# User / password for accessing Elasticsearch (same as .env settings in elasticsearch repo)
+ES_USER=""
+ES_PASSWORD=""
+
+# SHA256 fingerprint for additional security when accessing Elasticsearch
+ES_FINGERPRINT=""
+
+# Docker network to use
+ES_NETWORK=""
+
+# Our environment (eg dev, acc or empty)
+ES_ENV_NAME=""
+ES_ENV=""
+
+# Sharepoint endpoint for documents
+SHAREPOINT_ENDPOINT=""
+
+# Elasticsearch index
+ES_INDEXNAME=""
+
