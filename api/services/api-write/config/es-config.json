@@ -1,0 +1,188 @@
+{
+    "es-connector":
+    {
+        "tokens":
+        {
+            "sharepoint" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkVsYXN0aWNFeHBvcyJ9.eyJuYW1lIjoiU2hhcmVwb2ludCBpbnRlcm5hbCBjb25uZWN0b3IiLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTUxNjIzOTAyMn0.7QeqSwyFc3QKGe9_WamjREK0ADbknYOxZP_8TZb1sK8",
+            "zeeland"    : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkVsYXN0aWNFeHBvcyJ9.eyJuYW1lIjoiWmVlbGFuZC5ubCBtZXRhZGF0YSByZXF1ZXN0ZXIiLCJhZG1pbiI6ZmFsc2UsImlhdCI6MTUxNjIzOTAyMn0.oWpRlj-0yitpFGOSJk-oukkuDO5cFHqQsmOBKVFs5VM"
+        }
+    },
+
+    "es-hub":
+    {
+        "subscribers":
+        {
+            "mock":
+            {
+                "description"   : "Mock notifier",
+                "endpoint"      : "http//notify-mock:5003/notify/",
+                "method"        : "get",
+                "auth"          : {}
+            },
+
+            "mock_post":
+            {
+                "description"   : "Mock notifier met http/post",
+                "endpoint"      : "http//notify-mock:5003/notify_post/",
+                "method"        : "post",
+                "auth"          : {}
+            },
+          
+            "mock_bearer":
+            {
+                "description"   : "Mock notifier met bearer auth",
+                "endpoint"      : "http//notify-mock:5003/notify_bearer/",
+                "method"        : "get",
+                "auth"          : {"method" : "bearer",
+                                   "value"   : {"token" : "token:user"}
+                                  }
+            },
+
+            "mock_basic_auth":
+            {
+                "description"   : "Mock notifier met basic auth",
+                "endpoint"      : "http//notify-mock:5003/notify_basic_auth/",
+                "method"        : "get",
+                "auth"          : {"method" : "basic_auth",
+                                   "value"  : {"user" : "user",
+                                               "pass" : "pass"
+                                              }
+                                  }
+            }
+        }  
+
+    },
+
+    "cdn_schema":
+    {
+        "$schema"       : "https://json-schema.org/draft/2020-12/schema",
+        "$id"           : "https://example.com/product.schema.json",
+        "title"         : "CDN schema",
+        "description"   : "CDN data voor Elasticsearch",
+        "type"          : "object",
+        "info"          : "https://json-schema.org/learn/getting-started-step-by-step",
+        "properties": 
+        {
+            "ObjectId":
+            {
+                "description"   : "Unieke identifier",
+                "type"          : "string"
+            },
+            
+            "Metadata":
+            {
+                "type": "object",
+                "properties": {
+                                "MimeType" :
+                                {
+                                    "description"   : "Bestandtype",
+                                    "type"          : "string"
+                                },
+                                
+                                "FileName" :
+                                {
+                                    "description"   : "Bestandsnaam",
+                                    "type"          : "string"
+                                },
+                                
+                                "FileExtension":
+                                {
+                                    "description"   : "Bestandsextensie",
+                                    "type"          : "string"
+                                },
+                                
+                                "CreatedOn" :
+                                {
+                                    "description"   : "Aanmaakdatum",
+                                    "type"          : "string"
+                                },
+                                
+                                "ModifiedOn" :
+                                {
+                                    "description"   : "Wijzigingsdatum",
+                                    "type"          : "string"
+                                },
+
+                                "SourceCreatedOn" :
+                                {
+                                    "description"   : "Bron aanmaakdatum",
+                                    "type"          : "string"
+                                },
+                                
+                                "SourceModifiedOn" :
+                                {
+                                    "description"   : "Bron wijzigingsdatum",
+                                    "type"          : "string"
+                                },
+
+                                "AdditionalMetadata":
+                                {
+                                    "type"          : "object",
+                                    "properties":
+                                    {
+                                        "Author" :
+                                        {
+                                            "description"   : "Auteur",
+                                            "type"          : "string"
+                                        },            
+
+                                        "Title" :
+                                        {
+                                            "description"   : "Titel",
+                                            "type"          : "string"
+                                        },            
+
+                                        "DocumentType" :
+                                        {
+                                            "description"   : "Document type",
+                                            "type"          : "string"
+                                        },            
+
+                                        "ZeesterDocumentType" :
+                                        {
+                                            "description"   : "Zeester document type",
+                                            "type"          : "string"
+                                        },            
+
+                                        "ZeesterReference" :
+                                        {
+                                            "description"   : "Zeester referentie",
+                                            "type"          : "string"
+                                        },            
+
+                                        "RetentionPeriod" :
+                                        {
+                                            "description"   : "Retentie periode",
+                                            "type"          : "number"
+                                        },            
+
+                                        "Classification" :
+                                        {
+                                            "description"   : "Classificatie",
+                                            "type"          : "string"
+                                        },            
+
+                                        "PublicationDate" :
+                                        {
+                                            "description"   : "Datum publicatie",
+                                            "type"          : "string"
+                                        },            
+
+                                        "ArchiveDate" :
+                                        {
+                                            "description"   : "Datum archivering",
+                                            "type"          : "string"
+                                        }   
+                                    },
+
+                                    "required"  : ["Author", "Title", "DocumentType", "ZeesterDocumentType", "ZeesterReference", "RetentionPeriod",
+                                                   "Classification", "PublicationDate", "ArchiveDate"]
+                                }
+                              }
+                ,
+                "required"  : ["MimeType", "FileName", "FileExtension", "CreatedOn", "SourceCreatedOn"]              
+            }                                    
+        }    
+    }
+
+}

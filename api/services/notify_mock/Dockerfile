@@ -3,8 +3,9 @@
 ###########
 
 # pull official base image
-FROM python:3.10.7-slim-buster as builder
-#FROM python:3.7.16-slim-bullseye
+#FROM python:3.10.7-slim-buster as builder
+FROM python:3.12-rc-slim as builder
+
 
 # set work directory
 WORKDIR /usr/src/app
@@ -26,7 +27,7 @@ RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r requir
 #########
 # FINAL #
 #########
-FROM python:3.10.7-slim-buster
+FROM python:3.12-rc-slim
 
 # create directory for the app user
 RUN mkdir -p /data/notify_mock

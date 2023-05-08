@@ -10,8 +10,8 @@ FROM python:3.12-rc-slim as builder
 WORKDIR /usr/src/app
 
 # set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
 # install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends gcc
@@ -26,17 +26,18 @@ RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r requir
 #########
 # FINAL #
 #########
+#FROM python:3.10.7-slim-buster
 FROM python:3.12-rc-slim
 
-# create directory for the app user
-RUN mkdir -p /data/hub
+# create directories
+RUN mkdir -p /data/api
 
 # create the app user
 RUN addgroup --system flaskuser && adduser --system --group flaskuser
 
 # create the appropriate directories
-ENV HOME=/data/hub
-ENV APP_HOME=/data/hub/web
+ENV HOME=/data/api
+ENV APP_HOME=/data/api/web
 RUN mkdir $APP_HOME
 WORKDIR $APP_HOME
 
@@ -47,10 +48,13 @@ COPY --from=builder /usr/src/app/requirements.txt .
 RUN pip install --upgrade pip
 RUN pip install --no-cache /wheels/*
 
-# copy project
+# clean up
+RUN apt-get autoremove -y && apt-get clean -y
+
+# Copy project
 COPY . $APP_HOME
 
-# Ser ownership
+# Set ownerships
 RUN chown -R flaskuser:flaskuser $APP_HOME
 
 # Change user

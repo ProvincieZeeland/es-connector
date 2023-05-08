@@ -3,6 +3,8 @@ ES_USER=""
 ES_PASSWORD=""
 
 # SHA256 fingerprint for additional security when accessing Elasticsearch
+# When Elasticsearch is up-and-running: 
+# openssl s_client -connect localhost:9200 -servername localhost -showcerts </dev/null 2>/dev/null | openssl x509 -fingerprint -sha256 -noout -in /dev/stdin
 ES_FINGERPRINT=""
 
 # Docker network to use
@@ -18,3 +20,12 @@ SHAREPOINT_ENDPOINT=""
 # Elasticsearch index
 ES_INDEXNAME=""
 
+# Elasticsearch transaction index
+ES_TRANSACTION_INDEXNAME=""
+
+# Should we return the full JSON response 
+ES_FULL_JSON_RESPONSE=0
+
+# Ports to use
+ES_HTTP_PORT=
+ES_SSL_PORT=
