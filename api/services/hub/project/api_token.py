@@ -1,25 +1,25 @@
-##############################################################################
-#  
-#  Api_token
-#
-#  Class for handling tokens
-#
-#  @author Wim Kosten <w.kosten@zeeland.nl>
-#
-##############################################################################
-
+"""
+**
+*  Api_token
+*
+*  Support class for handling the authentication using the bearer token / secret
+*
+*  @author  Wim Kosten <w.kosten@zeeland.nl>
+*
+"""
 class Api_token:
     
-    ##############################################################################
-    #  
-    #  getTokenFromHeaders
-    #
-    #  Extract the token from the HTTP header
-    #
-    #  @param request
-    #  @return array
-    #
-    ##############################################################################
+    """
+    **
+    *  getTokenFromHeaders
+    *
+    *  Attempt to extrect the bearer token/secret from the Authorization HTTP header
+    *  and check if valid
+    *
+    *  @param  object request
+    *  @return array
+    *
+    """
     def getTokenFromHeaders(request):
 
         auth_header = request.headers.get('Authorization')

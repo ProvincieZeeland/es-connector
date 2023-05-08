@@ -48,6 +48,7 @@ services:
   esnode1:
     depends_on:
       - setup
+    restart: always  
     container_name: es-db  
     image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
     volumes:
@@ -94,10 +95,17 @@ services:
       interval: 10s
       timeout: 10s
       retries: 120    
+    logging:
+      driver: "json-file"
+      options:
+        max-file: 5
+        max-size: 15m
+
 
   esnode2:
     depends_on:
       - esnode1
+    restart: always  
     container_name: es-db2
     image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
     volumes:
@@ -139,7 +147,12 @@ services:
         ]
       interval: 10s
       timeout: 10s
-      retries: 120    
+      retries: 120   
+    logging:
+      driver: "json-file"
+      options:
+        max-file: 5
+        max-size: 15m   
 
   kibana:
     depends_on:
@@ -147,6 +160,7 @@ services:
         condition: service_healthy
       esnode2:
         condition: service_healthy
+    restart: always    
     container_name: es-kibana  
     image: docker.elastic.co/kibana/kibana:${STACK_VERSION}
     volumes:
@@ -162,7 +176,12 @@ services:
       - ELASTICSEARCH_USERNAME=kibana_system
       - ELASTICSEARCH_PASSWORD=${KIBANA_PASSWORD}
       - ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES=config/certs/ca/ca.crt
-
+    logging:
+      driver: "json-file"
+      options:
+        max-file: 5
+        max-size: 15m
+        
 networks:
   elastic-expos:
      external: true

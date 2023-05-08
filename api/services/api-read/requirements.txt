@@ -2,4 +2,10 @@ Flask==2.3.2
 flask_swagger
 gunicorn==20.1.0
 requests==2.28.1
+elasticsearch
 urllib3==1.26.12
+python-dotenv
+jsonschema
+PyPDF2
+python-dateutil
+xmltodict

@@ -4,15 +4,15 @@ services:
 
   # - Flask application for feeding Elasticsearch
   #
-  es-api:
-    build: ./services/api
+  es-api-write:
+    build: ./services/api-write
     command: python3 manage.py run -h 0.0.0.0 -p 5000
     restart: always
-    container_name: es-api-dev
+    container_name: es-api-write-dev
     expose:
       - 5000
     volumes:
-      - es-config:/data/config
+      - ./services/api-write/config:/data/config
     networks:
       - elastic-expos
     env_file:
@@ -20,7 +20,37 @@ services:
     environment:
       - ES_ENVIRONMENT_NAME=${ES_ENV_NAME}
       - ES_CONFIG=/data/config/es-config.json   
-      - ES_HUB_HOST=http://es-hub-dev:5001/notify/
+      - ES_HUB_HOST=http://es-hub-dev:5002/notify/
+      - ES_DB=https://es-db:9200
+      - ES_DB_PW=${ES_PASSWORD}
+      - ES_SHA_FINGERPRINT=${ES_FINGERPRINT}
+      - ES_INDEXNAME=${ES_INDEXNAME}
+      - ES_TRANSACTION_INDEXNAME=${ES_TRANSACTION_INDEXNAME}
+      - ES_FULL_JSON_RESPONSE=${ES_FULL_JSON_RESPONSE}
+      - SP_ENDPOINT=${SHAREPOINT_ENDPOINT}
+      - FLASK_APP=project/__init__.py
+      - FLASK_DEBUG=1
+    healthcheck:
+      test: "/data/api/web/healtcheck.sh localhost 5000 /heartbeat"
+      interval: 30s
+      timeout: 10s
+      retries: 20 
+
+  es-api-read:
+    build: ./services/api-read
+    command: python3 manage.py run -h 0.0.0.0 -p 5001
+    restart: always
+    container_name: es-api-read-dev
+    expose:
+      - 5001
+    volumes:
+      - ./services/api-write/config:/data/config      
+    networks:
+      - elastic-expos
+    env_file:
+      - ./.env  
+    environment:
+      - ES_ENVIRONMENT_NAME=${ES_ENV_NAME}
       - ES_DB=https://es-db:9200
       - ES_DB_PW=${ES_PASSWORD}
       - ES_SHA_FINGERPRINT=${ES_FINGERPRINT}
@@ -29,25 +59,23 @@ services:
       - FLASK_APP=project/__init__.py
       - FLASK_DEBUG=1
     healthcheck:
-      test: "/data/api/web/healtcheck.sh localhost 5000 /heartbeat"
+      test: "/data/api/web/healtcheck.sh localhost 5001 /heartbeat"
       interval: 30s
       timeout: 10s
-      retries: 20   
+      retries: 20       
 
   # ES-HUB
   # - Flask application for notifying endpoints about a change
   #
   es-hub:
     build: ./services/hub
-    command: python3 manage.py run -h 0.0.0.0 -p 5001
+    command: python3 manage.py run -h 0.0.0.0 -p 5002
     restart: always
     container_name: es-hub-dev
-    # ports:
-    #  - 5001:5001
     expose:
-      - 5001
+      - 5002
     volumes:
-      - es-config:/data/config      
+      - ./services/api-write/config:/data/config
     networks:
       - elastic-expos
     environment:
@@ -56,7 +84,7 @@ services:
      - FLASK_APP=project/__init__.py
      - FLASK_DEBUG=1
     healthcheck:
-      test: "/data/hub/web/healtcheck.sh localhost 5001 /heartbeat"
+      test: "/data/hub/web/healtcheck.sh localhost 5002 /heartbeat"
       interval: 30s
       timeout: 10s
       retries: 20 
@@ -66,15 +94,13 @@ services:
   #
   notify-mock:
     build: ./services/notify_mock
-    command: python3 manage.py run -h 0.0.0.0 -p 5002
+    command: python3 manage.py run -h 0.0.0.0 -p 5003
     restart: always
-    container_name: es-notify-mock-dev
-    #ports:
-    #  - 5002:5002
+    container_name: es-notify-mock
     expose:
-      - 5001
+      - 5003
     volumes:
-      - es-config:/data/config      
+      - ./services/api-write/config:/data/config      
     networks:
       - elastic-expos
     environment:
@@ -86,8 +112,3 @@ services:
 networks:
   elastic-expos:
      external: true
-
-volumes:
-  #es-data:
-  #es-sources:
-  es-config:

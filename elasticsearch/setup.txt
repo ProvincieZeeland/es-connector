@@ -1,0 +1,94 @@
+DELETE cdn_zeeland_acc_v2
+PUT cdn_zeeland_acc_v2
+PUT cdn_zeeland_acc_v2/_mappings
+{
+    "properties" : 
+    {
+        "object_id":        {"type": "keyword"},
+        "created":          {"type" : "date",
+                             "format" : "date_optional_time||strict_date_optional_time||yyyy-MM-dd'T'HH:mm:ss||yyyy-MM-dd HH:mm:ss||yyyy-MM-dd HH:mm:ss a||yyyy-MM-dd HH:mm:ss||M/dd/yyyy HH:mm:ss a||MM/dd/yyyy HH:mm:ss||MM/dd/yyyy HH:mm:ss a||yyyy-MM-dd||epoch_millis",
+                             "ignore_malformed": true
+                            },
+        "modified":         {"type": "date",
+                             "format" : "date_optional_time||strict_date_optional_time||yyyy-MM-dd'T'HH:mm:ss||yyyy-MM-dd HH:mm:ss||yyyy-MM-dd HH:mm:ss a||yyyy-MM-dd HH:mm:ss||M/dd/yyyy HH:mm:ss a||MM/dd/yyyy HH:mm:ss||MM/dd/yyyy HH:mm:ss a||yyyy-MM-dd||epoch_millis",
+			                       "ignore_malformed": true
+                            },
+        "source_created":   {"type": "date",
+                             "format" : "date_optional_time||strict_date_optional_time||yyyy-MM-dd'T'HH:mm:ss||yyyy-MM-dd HH:mm:ss||yyyy-MM-dd HH:mm:ss a||yyyy-MM-dd HH:mm:ss||M/dd/yyyy HH:mm:ss a||MM/dd/yyyy HH:mm:ss||MM/dd/yyyy HH:mm:ss a||yyyy-MM-dd||epoch_millis",
+			                       "ignore_malformed": true  
+                            },
+        "source_modified":  {"type": "date",
+                             "format" : "date_optional_time||strict_date_optional_time||yyyy-MM-dd'T'HH:mm:ss||yyyy-MM-dd HH:mm:ss||yyyy-MM-dd HH:mm:ss a||yyyy-MM-dd HH:mm:ss||M/dd/yyyy HH:mm:ss a||MM/dd/yyyy HH:mm:ss||MM/dd/yyyy HH:mm:ss a||yyyy-MM-dd||epoch_millis",
+                             "ignore_malformed": true
+                            },
+        "publication_date": {"type": "date",
+                             "format" : "date_optional_time||strict_date_optional_time||yyyy-MM-dd'T'HH:mm:ss||yyyy-MM-dd HH:mm:ss||yyyy-MM-dd HH:mm:ss a||yyyy-MM-dd HH:mm:ss||M/dd/yyyy HH:mm:ss a||MM/dd/yyyy HH:mm:ss||MM/dd/yyyy HH:mm:ss a||yyyy-MM-dd||epoch_millis",
+                             "ignore_malformed": true
+                            },
+        "archive_date":    {"type": "date",
+                            "format" : "date_optional_time||strict_date_optional_time||yyyy-MM-dd'T'HH:mm:ss||yyyy-MM-dd HH:mm:ss||yyyy-MM-dd HH:mm:ss a||yyyy-MM-dd HH:mm:ss||M/dd/yyyy HH:mm:ss a||MM/dd/yyyy HH:mm:ss||MM/dd/yyyy HH:mm:ss a||yyyy-MM-dd||epoch_millis",  
+				                    "ignore_malformed": true                                  
+				                   },  
+        "mime_type":        {"type": "text"},
+        "filename":         {"type": "text"},
+        "fileextension":    {"type": "keyword"},
+        "content":          {"type": "text"},
+        "author":           {"type": "text", "copy_to": "sayt_author"},
+        "title":            {"type": "text", "copy_to": "sayt_title"},
+        "document_type":    {"type": "keyword"},
+        "zeester_type":     {"type": "keyword"},
+        "zeester_ref":      {"type": "keyword"},
+        "retention":        {"type": "integer"},
+        "classification":   {"type": "keyword"},
+        "sayt_title":       {"type": "search_as_you_type"},
+        "sayt_author":      {"type": "search_as_you_type"},
+        "document_metadata":{"type": "nested",
+                             "properties": {"pages":           {"type": "integer"},
+                                            "size":            {"type": "integer"},
+                                            "crc":             {"type": "text"}
+                                           }
+                            }        
+    
+    }
+}
+
+POST cdn_zeeland_acc_v2/_close
+PUT cdn_zeeland_acc_v2/_settings
+{
+  "analysis": 
+  {
+      "filter": {
+        "ngram_filter": {
+          "type": "edge_ngram",
+          "min_gram": 2,
+          "max_gram": 15
+        }
+      },
+      "analyzer": {"ngram_analyzer":
+                    {
+                     "type": "custom",
+                     "tokenizer": "standard",
+                     "filter": ["lowercase", "ngram_filter"]
+                    },
+                   "standard_with_nl_stopwords":
+                    {
+                     "type":"standard",
+                     "stopwords":"_dutch_"
+                    }
+      }
+    }
+}
+POST cdn_zeeland_acc_v2/_open
+
+
+PUT cdn_zeeland_acc_transactions/_mappings
+{
+  "properties":
+  {
+    "object_id"          : {"type" : "text"},
+    "transaction_stamp"  : {"type" : "date", "format" : "epoch_millis"},
+    "action_requested"   : {"type" : "text"},
+    "http_response_code" : {"type": "integer"},
+    "transaction_data"   : {"type" : "object", "enabled" :false}
+  }
+}
