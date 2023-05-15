@@ -14,6 +14,16 @@ The PoC is a fully functional but pretty basic solution which supports:
 - Notify external parties about the change (webhook).
 - Serve metadata (JSON format) and content (eg PDF) format upon request.
 
+### 0.2 Small optimizations
+
+- Python Docker image replaced with one with less vulnerabilities (python:3.10-7-slim-buster -> python:3.12-rc-slim).
+- Removed CADDY for local development, only nginx now.
+- Enabled logrotation for Docker daemon / Docker Containers.
+- Added healthchecks for API containers and nginx.
+- Redefined the Elastic mapping to a more flat version / updated Python code.
+- Added new mapping / Python code for saving transaction data and timing (request, workflows and responses).
+- Elastic related operations are now devided into 2 Docker containers (1 for read, 1 for write aka CQRS).
+
 **TODO**
 
 - Support for API versioning (should we use a decicated API gateway like Kong or Tyk ?).
